@@ -1,0 +1,8 @@
+#ifndef NUMBERS
+#define NUMBERS
+
+class Numbers {
+
+}
+
+#endif

@@ -1,0 +1,6 @@
+#include "numbers.h"
+
+Numbers::Numbers(long number)
+{
+	no = number;
+}
