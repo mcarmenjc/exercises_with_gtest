@@ -1,5 +1,6 @@
 #include "../include/array_problems.h"
 #include <iostream>
+#include <new>
 
 int repeated_number(int * numbers_array, int size)
 {
@@ -148,4 +149,148 @@ void merge_arrays(int * first_array, int * second_array, int first_array_size, i
 	}
 
 	merge_data_left(first_array, second_array, final_array_index, second_array_index);
+}
+
+bool recursive_match(std::string pattern, std::string string_to_match, int pattern_position, int string_position)
+{
+	if (pattern_position == pattern.length() && string_position == string_to_match.length())
+		return true;
+	if (pattern_position == pattern.length() && string_position < string_to_match.length())
+		return false;
+
+	if (pattern_position+1 < pattern.length() && pattern[pattern_position+1] == '*')
+	{
+		if (pattern[pattern_position] == string_to_match[string_position] || (pattern[pattern_position] == '.' && string_position < string_to_match.length()))
+		{
+			return recursive_match(pattern, string_to_match, pattern_position + 2, string_position + 1) ||
+				   recursive_match(pattern, string_to_match, pattern_position, string_position + 1) ||
+				   recursive_match(pattern, string_to_match, pattern_position + 2, string_position);
+		}
+		else
+			return recursive_match(pattern, string_to_match, pattern_position + 2, string_position);
+	}
+	if (pattern[pattern_position] == string_to_match[string_position] || (pattern[pattern_position] == '.' && string_position < string_to_match.length()))
+		return recursive_match(pattern, string_to_match, pattern_position + 1, string_position + 1);
+	return false;
+}
+
+bool match(std::string pattern, std::string string_to_match)
+{
+	return recursive_match(pattern, string_to_match, 0, 0);
+}
+
+bool is_number_char(char number_char)
+{
+	return (number_char >= '0' && number_char <= '9');
+}
+
+bool is_sign(char sign_char)
+{
+	return (sign_char == '+' || sign_char == '-');
+}
+
+bool is_decimal_dot(char decimal_char)
+{
+	return (decimal_char == '.');
+}
+
+bool is_exponential(char exponential_char)
+{
+	return (exponential_char == 'e' || exponential_char == 'E');
+}
+
+bool is_number(std::string number)
+{
+	if (number == "")
+		return false;
+
+	int position = 0;
+	if (!is_number_char(number[0]) && is_sign(number[0]))
+			position = 1;
+
+	while (position < number.length() && is_number_char(number[position]) && !is_decimal_dot(number[position]) && !is_exponential(number[position]))
+		position ++;
+
+	if (position == number.length())
+		return true;
+
+	if (is_decimal_dot(number[position]))
+	{
+		position ++;
+		while (position < number.length() && is_number_char(number[position]) && !is_exponential(number[position]))
+			position ++;
+		if (position == number.length())
+			return true;
+	}
+
+	if (is_exponential(number[position]))
+	{
+		position ++;
+		if (position == number.length())
+			return false;
+		if (!is_number_char(number[position]) && is_sign(number[position]))
+			position ++;
+		if (position == number.length())
+			return false;
+		while (position < number.length() && is_number_char(number[position]))
+			position ++;
+		if (position == number.length())
+			return true;
+	}
+
+	return false;
+}
+
+bool valid_position(char **matrix, bool **visited, int rows, int columns, int x_position, int y_position, char current_char)
+{
+	if (x_position >= 0 && x_position < rows && y_position >= 0 && y_position < columns && 
+		!visited[x_position][y_position] && matrix[x_position][y_position] == current_char)
+		return true;
+	return false;
+}
+
+bool move(char **matrix, bool **visited, int rows, int columns, int x_position, int y_position, std::string string_to_find, int string_position)
+{
+	if (string_position == string_to_find.length())
+		return true;
+
+	bool can_move = false;
+	if (valid_position(matrix, visited, rows, columns, x_position, y_position, string_to_find[string_position]))
+	{
+		string_position ++;
+		visited[x_position][y_position] = true;
+		can_move = move(matrix, visited, rows, columns, x_position + 1, y_position, string_to_find, string_position) ||
+						move(matrix, visited, rows, columns, x_position, y_position + 1, string_to_find, string_position) ||
+						move(matrix, visited, rows, columns, x_position - 1, y_position, string_to_find, string_position) ||
+						move(matrix, visited, rows, columns, x_position, y_position - 1, string_to_find, string_position);
+
+		if (!can_move)
+			visited[x_position][y_position] = false;
+	}
+
+	return can_move;
+}
+
+bool does_matrix_contains_string(char ** matrix, int rows, int columns, std::string string_to_find)
+{
+	bool ** visited = new (std::nothrow) bool*[rows];
+	for (int i = 0; i < rows; i++)
+		visited[i] = new (std::nothrow) bool[columns];
+
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < columns; j++)
+			visited[i][j] = false;
+
+	bool found = false;
+	for (int i = 0; i < rows && !found; i++)
+		for (int j = 0; j < columns && !found; j++)
+		{
+			found = move(matrix, visited, rows, columns, i, j, string_to_find, 0);
+		}
+
+	for (int i = 0; i < rows; i++)
+		delete[] visited[i];
+	delete[] visited;	
+
+	return found;
 }

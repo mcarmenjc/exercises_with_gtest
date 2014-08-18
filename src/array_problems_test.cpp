@@ -1,5 +1,7 @@
 #include "../include/array_problems.h"
 #include "gtest/gtest.h"
+#include <string>
+#include <new>
 
 TEST(TestArrayProblems, RepeatedNumberShouldBeFound)
 {
@@ -349,4 +351,176 @@ TEST(TestArrayProblems, ArraysAreCorrectlyMergedWithRepeatedValues)
 
 	delete [] first_array;
 	delete [] second_array;
+}
+
+TEST(TestArrayProblems, StringAAAMatchesPattern1)
+{
+	std::string pattern = "a.a";
+	std::string string_to_check = "aaa";
+	bool is_match = match(pattern, string_to_check);
+	EXPECT_EQ(true, is_match);
+}
+
+TEST(TestArrayProblems, StringAAAMatchesPattern2)
+{
+	std::string pattern = "ab*ac*a";
+	std::string string_to_check = "aaa";
+	bool is_match = match(pattern, string_to_check);
+	EXPECT_EQ(true, is_match);
+}
+
+TEST(TestArrayProblems, StringAAADoesNotMatchPattern3)
+{
+	std::string pattern = "aa.a";
+	std::string string_to_check = "aaa";
+	bool is_match = match(pattern, string_to_check);
+	EXPECT_EQ(false, is_match);
+}
+
+TEST(TestArrayProblems, StringAAADoesNotMatchPattern4)
+{
+	std::string pattern = "ab*a";
+	std::string string_to_check = "aaa";
+	bool is_match = match(pattern, string_to_check);
+	EXPECT_EQ(false, is_match);
+}
+
+TEST(TestArrayProblems, StringIntegerIsCorrectNumber)
+{
+	std::string number = "123";
+	bool is_match = is_number(number);
+	EXPECT_EQ(true, is_match);
+}
+
+TEST(TestArrayProblems, StringIntegerWithPositiveSignIsCorrectNumber)
+{
+	std::string number = "+123";
+	bool is_match = is_number(number);
+	EXPECT_EQ(true, is_match);
+}
+
+TEST(TestArrayProblems, StringIntegerWithNegativeSignIsCorrectNumber)
+{
+	std::string number = "-123";
+	bool is_match = is_number(number);
+	EXPECT_EQ(true, is_match);
+}
+
+TEST(TestArrayProblems, StringFloatIsCorrectNumber)
+{
+	std::string number = "123.";
+	bool is_match = is_number(number);
+	EXPECT_EQ(true, is_match);
+}
+
+TEST(TestArrayProblems, StringFloatWithNegativeSignIsCorrectNumber)
+{
+	std::string number = "-123.";
+	bool is_match = is_number(number);
+	EXPECT_EQ(true, is_match);
+}
+
+TEST(TestArrayProblems, StringFloatWithDecimalsIsCorrectNumber)
+{
+	std::string number = "123.123";
+	bool is_match = is_number(number);
+	EXPECT_EQ(true, is_match);
+}
+
+TEST(TestArrayProblems, StringFloatWithDecimalsAndsignIsCorrectNumber)
+{
+	std::string number = "+3.141516";
+	bool is_match = is_number(number);
+	EXPECT_EQ(true, is_match);
+}
+
+TEST(TestArrayProblems, StringNumberWithExponentIsCorrectNumber)
+{
+	std::string number = "1e1";
+	bool is_match = is_number(number);
+	EXPECT_EQ(true, is_match);
+}
+
+TEST(TestArrayProblems, StringNumberWithExponentAndSignIsCorrectNumber)
+{
+	std::string number = "1e+1";
+	bool is_match = is_number(number);
+	EXPECT_EQ(true, is_match);
+}
+
+TEST(TestArrayProblems, StringPositiveNumberWithExponentAndSignIsCorrectNumber)
+{
+	std::string number = "+1e+1";
+	bool is_match = is_number(number);
+	EXPECT_EQ(true, is_match);
+}
+
+TEST(TestArrayProblems, IncorrectDecimalNumber)
+{
+	std::string number = "1.2.3";
+	bool is_match = is_number(number);
+	EXPECT_EQ(false, is_match);
+}
+
+TEST(TestArrayProblems, IncorrectExponentialNumber)
+{
+	std::string number = "1e+1.3";
+	bool is_match = is_number(number);
+	EXPECT_EQ(false, is_match);
+}
+
+TEST(TestArrayProblems, StringCorrectlyFoundInMatrix)
+{
+	std::string string_to_check = "bcced";
+	int rows = 3;
+	int columns = 4;
+	char ** matrix = new (std::nothrow) char*[rows];
+	for (int i = 0; i < rows; i++)
+		matrix[i] = new (std::nothrow) char[columns];
+	matrix[0][0] = 'a';
+	matrix[0][1] = 'b';
+	matrix[0][2] = 'c';
+	matrix[0][3] = 'e';
+	matrix[1][0] = 's';
+	matrix[1][1] = 'f';
+	matrix[1][2] = 'c';
+	matrix[1][3] = 's';
+	matrix[2][0] = 'a';
+	matrix[2][1] = 'd';
+	matrix[2][2] = 'e';
+	matrix[2][3] = 'e';
+
+	bool found = does_matrix_contains_string(matrix, rows, columns, string_to_check);
+	for (int i = 0; i < rows; i++)
+		delete[] matrix[i];
+	delete[] matrix;
+	ASSERT_TRUE(found);
+}
+
+TEST(TestArrayProblems, StringNotFoundInMatrix)
+{
+	std::string string_to_check = "abcb";
+	int rows = 3;
+	int columns = 4;
+	char ** matrix = new (std::nothrow) char*[rows];
+	for (int i = 0; i < rows; i++)
+		matrix[i] = new (std::nothrow) char[columns];
+	matrix[0][0] = 'a';
+	matrix[0][1] = 'b';
+	matrix[0][2] = 'c';
+	matrix[0][3] = 'e';
+	matrix[1][0] = 's';
+	matrix[1][1] = 'f';
+	matrix[1][2] = 'c';
+	matrix[1][3] = 's';
+	matrix[2][0] = 'a';
+	matrix[2][1] = 'd';
+	matrix[2][2] = 'e';
+	matrix[2][3] = 'e';
+
+	bool found = does_matrix_contains_string(matrix, rows, columns, string_to_check);
+	for (int i = 0; i < rows; i++)
+		delete[] matrix[i];
+	delete[] matrix;
+	ASSERT_FALSE(found);
 }

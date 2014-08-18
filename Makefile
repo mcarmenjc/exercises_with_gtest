@@ -73,11 +73,29 @@ $(LIB)/gtest_main.a : $(OBJ)/gtest-all.o $(OBJ)/gtest_main.o
 # gtest_main.a, depending on whether it defines its own main()
 # function.
 
-$(OBJ)/number.o : $(SRC)/number.cpp $(INC)/number.h
+$(OBJ)/matrix2by2.o : $(SRC)/matrix2by2.cpp $(INC)/matrix2by2.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/matrix2by2.cpp -o $(OBJ)/matrix2by2.o
+
+$(OBJ)/number.o : $(SRC)/number.cpp $(INC)/number.h $(INC)/matrix2by2.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/number.cpp -o $(OBJ)/number.o
 
-$(OBJ)/array_problems.o : $(SRC)/array_problems.cpp $(INC)/array_problems.h
+$(OBJ)/array_problems.o : $(SRC)/array_problems.cpp $(INC)/array_problems.h 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/array_problems.cpp -o $(OBJ)/array_problems.o
+
+$(OBJ)/linked_list.o : $(SRC)/linked_list.cpp $(INC)/linked_list.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/linked_list.cpp -o $(OBJ)/linked_list.o
+
+$(OBJ)/binarytree.o : $(SRC)/binarytree.cpp $(INC)/binarytree.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/binarytree.cpp -o $(OBJ)/binarytree.o
+
+$(OBJ)/queue_stack.o : $(SRC)/queue_stack.cpp $(INC)/queue_stack.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/queue_stack.cpp -o $(OBJ)/queue_stack.o
+
+$(OBJ)/stack_queue.o : $(SRC)/stack_queue.cpp $(INC)/stack_queue.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/stack_queue.cpp -o $(OBJ)/stack_queue.o
+
+$(OBJ)/array.o : $(SRC)/array.cpp $(INC)/array.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/array.cpp -o $(OBJ)/array.o
 
 $(OBJ)/number_test.o : $(SRC)/number_test.cpp $(INC)/number.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/number_test.cpp -o $(OBJ)/number_test.o
@@ -85,8 +103,31 @@ $(OBJ)/number_test.o : $(SRC)/number_test.cpp $(INC)/number.h $(GTEST_HEADERS)
 $(OBJ)/array_problems_test.o : $(SRC)/array_problems_test.cpp $(INC)/array_problems.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/array_problems_test.cpp -o $(OBJ)/array_problems_test.o
 
+$(OBJ)/linked_list_test.o : $(SRC)/linked_list_test.cpp $(INC)/linked_list.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/linked_list_test.cpp -o $(OBJ)/linked_list_test.o
+
+$(OBJ)/binarytree_test.o : $(SRC)/binarytree_test.cpp $(INC)/binarytree.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/binarytree_test.cpp -o $(OBJ)/binarytree_test.o
+
+$(OBJ)/queue_stack_test.o : $(SRC)/queue_stack_test.cpp $(INC)/queue_stack.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/queue_stack_test.cpp -o $(OBJ)/queue_stack_test.o
+
+$(OBJ)/stack_queue_test.o : $(SRC)/stack_queue_test.cpp $(INC)/stack_queue.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/stack_queue_test.cpp -o $(OBJ)/stack_queue_test.o
+
+$(OBJ)/array_test.o : $(SRC)/array_test.cpp $(INC)/array.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/array_test.cpp -o $(OBJ)/array_test.o
+
 $(OBJ)/main_tests.o : $(SRC)/main_tests.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/main_tests.cpp -o $(OBJ)/main_tests.o
 
-main_tests : $(OBJ)/number.o $(OBJ)/number_test.o $(OBJ)/array_problems.o $(OBJ)/array_problems_test.o $(OBJ)/main_tests.o $(LIB)/gtest_main.a
+main_tests : $(OBJ)/matrix2by2.o \
+			 $(OBJ)/number.o $(OBJ)/number_test.o \
+			 $(OBJ)/array_problems.o $(OBJ)/array_problems_test.o \
+			 $(OBJ)/linked_list.o $(OBJ)/linked_list_test.o \
+		     $(OBJ)/binarytree.o $(OBJ)/binarytree_test.o \
+		     $(OBJ)/queue_stack.o $(OBJ)/queue_stack_test.o \
+		     $(OBJ)/stack_queue.o $(OBJ)/stack_queue_test.o \
+		     $(OBJ)/array.o $(OBJ)/array_test.o \
+		     $(OBJ)/main_tests.o $(LIB)/gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
