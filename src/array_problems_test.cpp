@@ -524,3 +524,4 @@ TEST(TestArrayProblems, StringNotFoundInMatrix)
 	delete[] matrix;
 	ASSERT_FALSE(found);
 }
+

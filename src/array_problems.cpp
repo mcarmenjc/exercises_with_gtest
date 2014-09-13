@@ -1,6 +1,7 @@
 #include "../include/array_problems.h"
 #include <iostream>
 #include <new>
+#include <stack>
 
 int repeated_number(int * numbers_array, int size)
 {
