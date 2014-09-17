@@ -22,6 +22,8 @@ public:
 	int find_majority_element_using_partition();
 	int find_majority_element();
 	int repeated_number();
+	bool is_complete_cycle_array1();
+	bool is_complete_cycle_array2();
 private:
 	int * data;
 	int length;

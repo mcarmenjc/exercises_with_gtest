@@ -210,3 +210,37 @@ TEST_F(ArrayTest, NoMajorityElementCorrectlyFound)
 		array.set_at(i, i);
 	ASSERT_EQ(-1, array.find_majority_element());
 }
+
+TEST_F(ArrayTest, ArrayHasACompleteCycleUsingFirstApproach)
+{
+	Array array = Array(10);
+	for (int i = 0; i < 10; i++)
+		array.set_at(i, 1);
+	ASSERT_TRUE(array.is_complete_cycle_array1());
+}
+
+TEST_F(ArrayTest, ArrayHasACompleteCycleUsingSecondApproach)
+{
+	Array array = Array(10);
+	for (int i = 0; i < 10; i++)
+		array.set_at(i, 1);
+	ASSERT_TRUE(array.is_complete_cycle_array2());
+}
+
+TEST_F(ArrayTest, ArrayWithCycleIsNotCompleteCycleUsingFirstApproach)
+{
+	Array array = Array(10);
+	for (int i = 0; i < 9; i++)
+		array.set_at(i, 1);
+	array.set_at(9, 2);
+	ASSERT_FALSE(array.is_complete_cycle_array1());
+}
+
+TEST_F(ArrayTest, ArrayWithCycleIsNotACompleteCycleUsingSecondApproach)
+{
+	Array array = Array(10);
+	for (int i = 0; i < 9; i++)
+		array.set_at(i, 1);
+	array.set_at(9, 2);
+	ASSERT_FALSE(array.is_complete_cycle_array2());
+}

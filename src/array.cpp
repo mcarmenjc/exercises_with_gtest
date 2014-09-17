@@ -199,7 +199,7 @@ void Array::count_sort()
 	int max_value = get_max_value();
 	Array count_array = Array(max_value + 1);
 
-	for (int i = 0, j = 0; i < count_array.length; i++)
+	for (int i = 0; i < count_array.length; i++)
 		count_array.data[i] = 0;
 
 	for (int i = 0; i < length; i++)
@@ -217,10 +217,13 @@ void Array::count_sort()
 int Array::get_max_value()
 {
 	int max_value = data[0];
-
-	for (int i = 1; i < length; i++)
-		if (data[i] > max_value)
+	for (int i = 1; i < length; i++) {
+		if (data[i] > max_value){
 			max_value = data[i];
+		}
+	}
+
+	return max_value;
 }
 
 int Array::binary_search(int value)
@@ -403,4 +406,31 @@ int Array::find_majority_element()
 		return majority_element;
 	else
 		return -1;
+}
+
+bool Array::is_complete_cycle_array1(){
+	bool * reached = new (std::nothrow) bool[length];
+	for (int i = 0; i < length; i++){
+		reached[i] = false;
+	}
+
+	int actual_step = 0;
+	while (!reached[actual_step]){
+		reached[actual_step] = true;
+		actual_step = (actual_step + data[actual_step])%length;
+	}
+	bool has_cycle = true;
+	for (int i = 0; i < length; i++)
+		has_cycle = has_cycle && reached[i];
+
+	return has_cycle && (actual_step == 0);
+}
+
+bool Array::is_complete_cycle_array2(){
+	int actual_step = 0;
+	for (int i = 0; i < length; i++){
+		actual_step = (actual_step + data[actual_step])%length;
+	}
+	
+	return (actual_step == 0);
 }
