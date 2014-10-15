@@ -100,6 +100,9 @@ $(OBJ)/array.o : $(SRC)/array.cpp $(INC)/array.h
 $(OBJ)/interviewcake.o : $(SRC)/interviewcake.cpp $(INC)/interviewcake.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/interviewcake.cpp -o $(OBJ)/interviewcake.o
 
+$(OBJ)/matrix.o : $(SRC)/matrix.cpp $(INC)/matrix.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/matrix.cpp -o $(OBJ)/matrix.o
+
 $(OBJ)/number_test.o : $(SRC)/number_test.cpp $(INC)/number.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/number_test.cpp -o $(OBJ)/number_test.o
 
@@ -124,6 +127,9 @@ $(OBJ)/array_test.o : $(SRC)/array_test.cpp $(INC)/array.h $(GTEST_HEADERS)
 $(OBJ)/interviewcake_test.o : $(SRC)/interviewcake_test.cpp $(INC)/interviewcake.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/interviewcake_test.cpp -o $(OBJ)/interviewcake_test.o
 
+$(OBJ)/matrix_test.o : $(SRC)/matrix_test.cpp $(INC)/matrix.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/matrix_test.cpp -o $(OBJ)/matrix_test.o
+
 $(OBJ)/main_tests.o : $(SRC)/main_tests.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC)/main_tests.cpp -o $(OBJ)/main_tests.o
 
@@ -136,5 +142,6 @@ main_tests : $(OBJ)/matrix2by2.o \
 		     $(OBJ)/stack_queue.o $(OBJ)/stack_queue_test.o \
 		     $(OBJ)/array.o $(OBJ)/array_test.o \
 		     $(OBJ)/interviewcake.o $(OBJ)/interviewcake_test.o \
+		     $(OBJ)/matrix.o $(OBJ)/matrix_test.o \
 		     $(OBJ)/main_tests.o $(LIB)/gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@

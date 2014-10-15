@@ -46,6 +46,15 @@ TEST_F(ArrayTest, ArrayIsCorrectlySortedUsingBubbleSort)
 	}
 }
 
+TEST_F(ArrayTest, ArrayIsCorrectlySortedUsingSelectionSort)
+{
+	unsorted_array.selection_sort();
+	for (int i = 1; i < unsorted_array.get_length(); i++)
+	{
+		ASSERT_TRUE(unsorted_array.get_at(i-1) <= unsorted_array.get_at(i));
+	}
+}
+
 TEST_F(ArrayTest, ArrayIsCorrectlySortedUsingMergeSort)
 {
 	unsorted_array.merge_sort();
@@ -243,4 +252,112 @@ TEST_F(ArrayTest, ArrayWithCycleIsNotACompleteCycleUsingSecondApproach)
 		array.set_at(i, 1);
 	array.set_at(9, 2);
 	ASSERT_FALSE(array.is_complete_cycle_array2());
+}
+
+TEST_F(ArrayTest, SpecificNumberIsContainedInArrayAsSumOfTwoItems)
+{
+	Array array = Array(10);
+	for (int i = 0; i < 9; i++)
+		array.set_at(i, i+1);
+	ASSERT_TRUE(array.contains_num_sum(5));
+}
+
+TEST_F(ArrayTest, SpecificNumberIsNotContainedInArrayAsSumOfTwoItems)
+{
+	Array array = Array(10);
+	for (int i = 0; i < 9; i++)
+		array.set_at(i, i+1);
+	ASSERT_FALSE(array.contains_num_sum(20));
+}
+
+TEST_F(ArrayTest, CorrectNumberOfInversionsShouldBeRetrieved)
+{
+	Array array = Array(5);
+	array.set_at(0, 2);
+	array.set_at(1, 3);
+	array.set_at(2, 8);
+	array.set_at(3, 6);
+	array.set_at(4, 1);
+	ASSERT_EQ(5, array.get_number_of_inversions());
+}
+
+TEST_F(ArrayTest, CorrectMaximumSubArrayShouldBeRetrieved)
+{
+	Array array = Array(16);
+	array.set_at(0, 13);
+	array.set_at(1, -3);
+	array.set_at(2, -25);
+	array.set_at(3, 20);
+	array.set_at(4, -3);
+	array.set_at(5, -16);
+	array.set_at(6, -23);
+	array.set_at(7, 18);
+	array.set_at(8, 20);
+	array.set_at(9, -7);
+	array.set_at(10, 12);
+	array.set_at(11, -5);
+	array.set_at(12, -22);
+	array.set_at(13, 15);
+	array.set_at(14, -4);
+	array.set_at(15, 7);
+	Array max_subarray = array.get_maximum_subarray();
+	ASSERT_EQ(4, max_subarray.get_length());
+	ASSERT_EQ(18, max_subarray.get_at(0));
+	ASSERT_EQ(20, max_subarray.get_at(1));
+	ASSERT_EQ(-7, max_subarray.get_at(2));
+	ASSERT_EQ(12, max_subarray.get_at(3));
+}
+
+TEST_F(ArrayTest, CorrectMaximumSubArrayShouldBeRetrievedUsingBruteForceAlgorithm)
+{
+	Array array = Array(16);
+	array.set_at(0, 13);
+	array.set_at(1, -3);
+	array.set_at(2, -25);
+	array.set_at(3, 20);
+	array.set_at(4, -3);
+	array.set_at(5, -16);
+	array.set_at(6, -23);
+	array.set_at(7, 18);
+	array.set_at(8, 20);
+	array.set_at(9, -7);
+	array.set_at(10, 12);
+	array.set_at(11, -5);
+	array.set_at(12, -22);
+	array.set_at(13, 15);
+	array.set_at(14, -4);
+	array.set_at(15, 7);
+	Array max_subarray = array.get_maximum_subarray_brute_force();
+	ASSERT_EQ(4, max_subarray.get_length());
+	ASSERT_EQ(18, max_subarray.get_at(0));
+	ASSERT_EQ(20, max_subarray.get_at(1));
+	ASSERT_EQ(-7, max_subarray.get_at(2));
+	ASSERT_EQ(12, max_subarray.get_at(3));
+}
+
+TEST_F(ArrayTest, CorrectMaximumSubArrayShouldBeRetrievedUsingNonRecursiveAlgorithm)
+{
+	Array array = Array(16);
+	array.set_at(0, 13);
+	array.set_at(1, -3);
+	array.set_at(2, -25);
+	array.set_at(3, 20);
+	array.set_at(4, -3);
+	array.set_at(5, -16);
+	array.set_at(6, -23);
+	array.set_at(7, 18);
+	array.set_at(8, 20);
+	array.set_at(9, -7);
+	array.set_at(10, 12);
+	array.set_at(11, -5);
+	array.set_at(12, -22);
+	array.set_at(13, 15);
+	array.set_at(14, -4);
+	array.set_at(15, 7);
+	Array max_subarray = array.get_maximum_subarray_non_recursive();
+	ASSERT_EQ(4, max_subarray.get_length());
+	ASSERT_EQ(18, max_subarray.get_at(0));
+	ASSERT_EQ(20, max_subarray.get_at(1));
+	ASSERT_EQ(-7, max_subarray.get_at(2));
+	ASSERT_EQ(12, max_subarray.get_at(3));
 }

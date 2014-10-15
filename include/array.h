@@ -1,6 +1,8 @@
 #ifndef ARRAY
 #define ARRAY
 
+#include <vector>
+
 class Array {
 public:
 	Array();
@@ -12,6 +14,7 @@ public:
 	int get_length();
 	void insert_sort();
 	void bubble_sort();
+	void selection_sort();
 	void merge_sort();
 	void quick_sort();
 	void count_sort();
@@ -24,6 +27,11 @@ public:
 	int repeated_number();
 	bool is_complete_cycle_array1();
 	bool is_complete_cycle_array2();
+	bool contains_num_sum(int result);
+	int get_number_of_inversions();
+	Array get_maximum_subarray();
+	Array get_maximum_subarray_brute_force();
+	Array get_maximum_subarray_non_recursive();
 private:
 	int * data;
 	int length;
@@ -38,6 +46,11 @@ private:
 	int binary_search_core(int value, int beginning, int end);
 	int min_value_sequentially(int beginning, int end);
 	bool check_majority(int value);
+	int get_number_of_inversions(int beginning, int ending);
+	int get_merge_subarrays_inversions(int beginning, int middle, int ending);
+	std::vector<int> get_max_crossing_subarray(int beginning, int end);
+	std::vector<int> get_maximum_subarray(int beginning, int end);
+	Array create_max_subarray(int beginning, int end);
 };
 
 #endif

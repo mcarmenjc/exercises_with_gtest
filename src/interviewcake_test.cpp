@@ -2,6 +2,7 @@
 #include "gtest/gtest.h"
 #include <string>
 #include <new>
+#include <map>
 
 TEST(InterviewCakeTest, MaxProfitShouldBeCorrectlyCalculated)
 {
@@ -104,4 +105,30 @@ TEST(InterviewCakeTest, CorrectlyFindTheRepeatedNumberInARange)
 	int repeated_number = find_repeated_number(numbers, 10);
 	delete[] numbers;
 	ASSERT_EQ(9, repeated_number);
+}
+
+TEST(InterviewCakeTest, GetNumberOfCombinationsForASetAmountShouldBeCorrect)
+{
+	int * denominations = new (std::nothrow) int[3];
+	denominations[0] = 1;
+	denominations[1] = 2;
+	denominations[2] = 3;
+	int number_of_denominations = get_number_of_denominations2(4, denominations, 3);
+	delete[] denominations;
+	ASSERT_EQ(4, number_of_denominations);
+}
+
+TEST(InterviewCakeTest, CorrectWordCloudShouldBeGetFromPhrase)
+{
+	std::string phrase = "After beating the eggs, Dana read the next step: Add milk and eggs, then add flour and sugar.";
+	std::map<std::string, int> word_count = get_word_cloud(phrase);
+	ASSERT_EQ(2, word_count["add"]);
+}
+
+TEST(InterviewCakeTest, CorrectWordCloudShouldBeGetFromPhraseWithHyphenatedWords)
+{
+	std::string phrase = "We came, we saw, we conquered...then we ate Bill's (Mille-Feuille) cake.";
+	std::map<std::string, int> word_count = get_word_cloud(phrase);
+	ASSERT_EQ(1, word_count["mille-feuille"]);
+	ASSERT_EQ(1, word_count["bill's"]);
 }
